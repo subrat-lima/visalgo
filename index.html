@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Pathfinding Visualizer</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Nunito:wght@200;600&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.1.7/css/fork-awesome.min.css" integrity="sha256-gsmEoJAws/Kd3CjuOQzLie5Q3yshhvmo7YNtBG7aaEY=" crossorigin="anonymous">
+</head>
+<body>
+  <header class="nav">
+    <nav class="navbar">
+      <a href="#" class="title">Pathfinding Visualizer</a>
+      <div class="navbar__items">
+        <div class="navbar__item dropdown">
+          <button class="dropbtn" id="algo-btn">Algorithms:
+            <span class="info__item-value" id="algo-value"></span>
+            <i class="fa fa-angle-down" aria-hidden="true"></i>
+          </button>
+          <div class="dropdown-content" id="dropdown-algo">
+            <button class="dropdown-item algo-option" data-value="bfs">Breadth
+              First Search</button>
+            <button class="dropdown-item algo-option" data-value="dfs">Depth
+              First Search</button>
+            <button class="dropdown-item algo-option" data-value="dijkstra">Dijkstra</button>
+            <button class="dropdown-item algo-option" data-value="astar">A Star</button>
+          </div>
+        </div>
+        <div class="navbar__item dropdown">
+          <button class="dropbtn" id="grid-btn">Grid <i class="fa fa-angle-down" aria-hidden="true"></i></button>
+          <div class="dropdown-content" id="dropdown-grid">
+            <button class="dropdown-item grid-option" id="clear-wall">Clear Walls</button>
+            <button class="dropdown-item grid-option" id="clear-weight">Clear Weights</button>
+            <button class="dropdown-item grid-option" id="add-walls">Add Walls</button>
+            <button class="dropdown-item grid-option" id="add-weights">Add Weights</button>
+          </div>
+        </div>
+        <button id="visualize" class="navbar__item nav__item-highlight">Visualize</button>
+        <div class="navbar__item dropdown">
+          <button class="dropbtn" id="speed-btn">Speed :
+            <span class="info__item-value" id="speed-value"></span>
+            <i class="fa fa-angle-down" aria-hidden="true"></i></button>
+          <div class="dropdown-content" id="dropdown-speed">
+            <button class="dropdown-item speed-option"
+                    data-value="0">Instant</button>
+            <button class="dropdown-item speed-option" data-value="25">Fast</button>
+            <button class="dropdown-item speed-option" data-value="50">Average</button>
+            <button class="dropdown-item speed-option" data-value="100">Slow</button>
+          </div>
+        </div>
+      </div>
+    </nav>
+  </header>
+  <main class="container">
+    <section class="info">
+      <div class="info__item">
+        <i class="fa fa-lg fa-chevron-right" aria-hidden="true"></i>
+        <span class="info__item-text">Start Node</span>
+      </div>
+      <div class="info__item">
+        <i class="fa fa-lg fa-dot-circle-o" aria-hidden="true"></i>
+        <span class="info__item-text">Target Node</span>
+      </div>
+      <div class="info__item">
+        <i class="fa fa-lg fa-lock" aria-hidden="true"></i>
+        <span class="info__item-text">Weight Node</span>
+      </div>
+      <div class="info__item">
+        <i class="node"></i>
+        <span class="info__item-text">Unvisited Node</span>
+      </div>
+      <div class="info__item">
+        <i class="node wall"></i>
+        <span class="info__item-text">Wall Node</span>
+      </div>
+      <div class="info__item">
+        <i class="node visited"></i>
+        <span class="info__item-text">Visited Node</span>
+      </div>
+      <div class="info__item">
+        <i class="node shortest"></i>
+        <span class="info__item-text">Shorted Path Node</span>
+      </div>
+    </section>
+    <table class="grid" id="grid">
+    </table>
+  </main>
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,57 @@
+import { Queue } from './queue.js';
+
+/**
+ * BFS Algorithm Implementation
+ * @param ui: UI class for visualization
+ * @param grid: Grid class for list of nodes
+ * @param start: starting node
+ * @param end: destination node
+ * @param animate: to toggle animation for visualization
+ * @return boolean: true if path found else false
+ */
+export const bfs = async (ui, grid, start, end, animate) => {
+  // initialize queue
+  let queue = new Queue();
+
+  // add the first node to queue
+  queue.enqueue(start);
+
+  // loop till queue is not empty
+  while(!queue.isEmpty()) {
+
+    // remove node from queue
+    let current = queue.dequeue();
+
+    // if node already visited, skip it
+    if(current.isVisited())
+      continue;
+
+    // set the node visited and visualize
+    current.setVisited();
+    ui.setElementType(current.elem, 'visited');
+
+    // return true if destination node reached
+    if(grid.areNodeEquals(current, end))
+      return true;
+
+    // animation option
+    if(animate)
+      await ui.sleep();
+
+    // get neighbours
+    const neighbours = current.getNeighbours();
+
+    neighbours.forEach(neighbour => {
+
+      // set parent node for neighbour to keep track of traversed path
+      if(neighbour.elem.getAttribute('data-prev') == null)
+        neighbour.elem.setAttribute('data-prev', current.id);
+
+      // add neighbour to the queue
+      queue.enqueue(neighbour);
+    });
+  }
+
+  // path not found, so, return false
+  return false;
+}
