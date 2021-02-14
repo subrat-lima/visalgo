@@ -69,8 +69,11 @@ export class UI {
     for(let i = 0; i < this.rows; i++) {
       for(let j = 0; j < this.columns; j++) {
         grid.nodes[i][j].visited = false;
+        grid.nodes[i][j].elem.removeAttribute('data-prev');
         this.removeElementType(grid.nodes[i][j].elem, 'visited');
+        this.removeElementType(grid.nodes[i][j].elem, 'visited-animate');
         this.removeElementType(grid.nodes[i][j].elem, 'shortest');
+        this.removeElementType(grid.nodes[i][j].elem, 'shortest-animate');
       }
     }
   }
