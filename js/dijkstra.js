@@ -49,6 +49,9 @@ export const dijkstra = async (ui, grid, start, end, animate) => {
 
     neighbours.forEach(neighbour => {
 
+      if(neighbour.isWall())
+        return;
+
       // calculate distance to neighbour through current node
       let distance = weight + neighbour.weight;
 

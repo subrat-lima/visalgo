@@ -2,11 +2,12 @@ import { Node } from './node.js';
 
 export class UI {
   constructor() {
-    this.speed = {'0': 'instant', '25': 'fast', '50': 'average', '100': 'slow'};
+    this.speed = {'0': 'Instant', '25': 'Fast', '50': 'Average', '100': 'Slow'};
     this.algoValues = {'bfs': 'BFS', 'dfs': 'DFS', 'dijkstra': 'Dijkstra', 'astar': 'A Star'};
     this.animate = true;
     this.animationSpeed = 25;
     this.algorithm = 'bfs';
+    this.addElem = 'Walls';
 
     this.domElements();
     this.setGridSize();
@@ -21,14 +22,87 @@ export class UI {
     this.algoContent = document.getElementById('dropdown-algo');
     this.gridContent = document.getElementById('dropdown-grid');
     this.speedBtn = document.getElementById('speed-btn');
+    this.gridBtn = document.getElementById('grid-btn');
     this.speedContent = document.getElementById('dropdown-speed');
     this.speedOptions = document.querySelectorAll('.speed-option');
 
     this.algoValue = document.getElementById('algo-value');
+    this.gridValue = document.getElementById('grid-value');
     this.speedValue = document.getElementById('speed-value');
     this.speedValue.innerHTML = this.speed[`${this.animationSpeed}`];
     this.algoValue.innerHTML = this.algoValues[this.algorithm];
+    this.gridValue.innerHTML = this.addElem;
+
+    this.clearWall = document.getElementById('clear-wall');
+    this.clearWeight = document.getElementById('clear-weight');
+    this.addWalls = document.getElementById('add-walls');
+    this.addWeights = document.getElementById('add-weights');
   };
+
+  clearWalls(grid) {
+    for(let i = 0; i < this.rows; i++) {
+      for(let j = 0; j < this.columns; j++) {
+        grid.nodes[i][j].wall = false;
+        grid.nodes[i][j].visited = false;
+        this.removeElementType(grid.nodes[i][j].elem, 'visited');
+        this.removeElementType(grid.nodes[i][j].elem, 'shortest');
+        this.removeElementType(grid.nodes[i][j].elem, 'wall');
+      }
+    }
+  }
+
+  clearWeights(grid) {
+    for(let i = 0; i < this.rows; i++) {
+      for(let j = 0; j < this.columns; j++) {
+        if(grid.nodes[i][j].weight > 1)
+          grid.nodes[i][j].elem.innerHTML = '';
+        grid.nodes[i][j].weight = 1;
+        grid.nodes[i][j].visited = false;
+        this.removeElementType(grid.nodes[i][j].elem, 'visited');
+        this.removeElementType(grid.nodes[i][j].elem, 'shortest');
+
+      }
+    }
+  }
+
+  clearPaths(grid) {
+    for(let i = 0; i < this.rows; i++) {
+      for(let j = 0; j < this.columns; j++) {
+        grid.nodes[i][j].visited = false;
+        this.removeElementType(grid.nodes[i][j].elem, 'visited');
+        this.removeElementType(grid.nodes[i][j].elem, 'shortest');
+      }
+    }
+  }
+
+  addGridModifierListeners(grid) {
+    this.clearWall.onclick = (e) => {
+      this.gridContent.classList.toggle('show');
+      this.clearWalls(grid);
+    };
+
+    this.clearWeight.onclick = (e) => {
+      this.gridContent.classList.toggle('show');
+      this.clearWeights(grid);
+    };
+
+    for(let i = 0; i < this.rows; i++) {
+      for(let j = 0; j < this.columns; j++) {
+        let elem = grid.nodes[i][j].elem;
+        elem.onclick = (e) => {
+          if(this.addElem == 'Walls') {
+            grid.nodes[i][j].wall = true;
+            this.setElementType(elem, 'wall');
+          } else {
+            grid.nodes[i][j].weight = 5;
+            elem.innerHTML = '<i class="fa fa-lg fa-lock" aria-hidden="true"></i>';
+            this.setElementType(elem, 'weight');
+          }
+        };
+      }
+    }
+
+  }
 
   addEventListeners() {
     this.algoBtn.onclick = (e) => {
@@ -44,9 +118,25 @@ export class UI {
       }
     }
 
-  this.speedBtn.onclick = (e) => {
+    this.gridBtn.onclick = (e) => {
+      this.gridContent.classList.toggle('show');
+    }
+
+    this.addWalls.onclick = (e) => {
+      this.gridContent.classList.toggle('show');
+      this.addElem = 'Walls';
+      this.gridValue.innerHTML = this.addElem;
+    };
+
+    this.addWeights.onclick = (e) => {
+      this.gridContent.classList.toggle('show');
+      this.addElem = 'Weights';
+      this.gridValue.innerHTML = this.addElem;
+    };
+
+    this.speedBtn.onclick = (e) => {
       this.speedContent.classList.toggle('show');
-  }
+    }
 
     this.speedOptions.forEach(speed => {
       speed.onclick = (e) => {

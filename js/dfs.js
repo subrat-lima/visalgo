@@ -25,6 +25,9 @@ export const dfs = async (ui, grid, start, end, animate) => {
   // get neighbours
   const neighbours = start.getNeighbours();
   for(let i = 0; i < neighbours.length; i++) {
+
+    if(neighbours[i].isWall())
+      continue;
     // skip if neighbour has been visited
     if(neighbours[i].isVisited())
       continue;

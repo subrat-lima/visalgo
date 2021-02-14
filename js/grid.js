@@ -21,7 +21,6 @@ export class Grid {
 
   setEndNode(ui, node) {
     this.endNode = node;
-    node.elem.innerHTML = `<i id="starticon" class="fa fa-chevron-right fa-lg" aria-hidden="true" draggable="true"></i>`;
     node.elem.innerHTML = `<i id="endicon" class="fa fa-dot-circle-o fa-lg" aria-hidden="true" draggable="true"></i>`;
     ui.setElementType(node.elem, 'end');
   }
@@ -55,37 +54,4 @@ export class Grid {
     return true;
   }
 
-  clearPaths(ui) {
-    for(let i = 0; i < this.rows; i++) {
-      for(let j = 0; j < this.columns; j++) {
-        this.nodes[i][j].visited = false;
-        ui.removeElementType(this.nodes[i][j].elem, 'visited');
-        ui.removeElementType(this.nodes[i][j].elem, 'shortest');
-      }
-    }
-  }
-
-  clearWalls(ui) {
-    for(let i = 0; i < this.rows; i++) {
-      for(let j = 0; j < this.columns; j++) {
-        this.nodes[i][j].wall = false;
-        ui.removeElementType(this.nodes[i][j].elem, 'wall');
-      }
-    }
-  }
-
-  clearWeights(ui) {
-    for(let i = 0; i < this.rows; i++) {
-      for(let j = 0; j < this.columns; j++) {
-        this.nodes[i][j].weight = 1;
-        ui.removeElementType(this.nodes[i][j].elem, 'weight');
-      }
-    }
-  }
-
-  clearGrid(ui) {
-    this.clearPaths(ui);
-    this.clearWalls(ui);
-    this.clearWeights(ui);
-  }
 }

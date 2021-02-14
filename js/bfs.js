@@ -46,6 +46,8 @@ export const bfs = async (ui, grid, start, end, animate) => {
 
     neighbours.forEach(neighbour => {
 
+      if(neighbour.isWall())
+        return;
       // set parent node for neighbour to keep track of traversed path
       if(neighbour.elem.getAttribute('data-prev') == null)
         neighbour.elem.setAttribute('data-prev', current.id);
