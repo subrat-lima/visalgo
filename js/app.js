@@ -8,8 +8,8 @@ const ui = new UI();
 const algo = new Algorithms();
 const grid = new Grid(ui.rows, ui.columns, ui.drawGrid());
 
-grid.setStartNode(ui, grid.nodes[parseInt(ui.rows / 2)][13]);
-grid.setEndNode(ui, grid.nodes[parseInt(ui.rows / 2)][ui.columns - 14]);
+grid.setStartNode(ui, grid.nodes[parseInt(ui.rows / 2)][parseInt(ui.columns / 3)]);
+grid.setEndNode(ui, grid.nodes[parseInt(ui.rows / 2)][parseInt(ui.columns - ui.columns / 3)]);
 
 let startElem = grid.getStartNode().elem;
 let endElem = grid.getEndNode().elem;

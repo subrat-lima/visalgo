@@ -83,20 +83,20 @@ export class UI {
   }
 
   setGridSize() {
-    this.columns = this.getNodeSize(window.innerWidth * .8);
+    this.columns = this.getNodeSize(window.innerWidth * .7);
     this.rows = this.getNodeSize(window.innerHeight * .6);
   }
 
   drawGrid() {
     let nodes = [];
-    const tbody = document.createElement('tbody');
-    tbody.classList.add('grid-body');
+    //const grid = document.createElement('tbody');
+    //tbody.classList.add('grid-body');
     for(let i = 0; i < this.rows; i++) {
       const nodeRow = [];
-      const elemRow = document.createElement('tr');
+      const elemRow = document.createElement('div');
       elemRow.classList.add('grid__row');
       for(let j = 0; j < this.columns; j++) {
-        const elem = document.createElement('td');
+        const elem = document.createElement('span');
         elem.classList.add('node');
         let nodeId = `${i}-${j}`;
         elem.setAttribute('data-id', nodeId);
@@ -106,10 +106,10 @@ export class UI {
         let node = new Node(elem, nodeId);
         nodeRow.push(node);
       }
-      tbody.appendChild(elemRow);
+      this.grid.appendChild(elemRow);
       nodes.push(nodeRow);
     }
-    this.grid.appendChild(tbody);
+    //this.grid.appendChild(tbody);
     return nodes;
   }
 

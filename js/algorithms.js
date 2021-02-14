@@ -56,12 +56,14 @@ export class Algorithms {
     // and visualize each path
     for(let i = path.length - 1; i >= 0; i--) {
 
-      // animation
-      if(animate)
-        await ui.sleep();
-
       // visualize
       ui.setElementType(path[i].elem, 'shortest');
+
+      // animation
+      if(animate) {
+        ui.setElementType(path[i].elem, 'shortest-animate');
+        await ui.sleep();
+      }
     }
   }
 }
