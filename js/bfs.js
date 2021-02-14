@@ -30,13 +30,16 @@ export const bfs = async (ui, grid, start, end, animate) => {
     current.setVisited();
     ui.setElementType(current.elem, 'visited');
 
+    // animation option
+    if(animate) {
+      ui.setElementType(current.elem, 'visited-animate');
+      await ui.sleep();
+    }
+
     // return true if destination node reached
     if(grid.areNodeEquals(current, end))
       return true;
 
-    // animation option
-    if(animate)
-      await ui.sleep();
 
     // get neighbours
     const neighbours = current.getNeighbours();

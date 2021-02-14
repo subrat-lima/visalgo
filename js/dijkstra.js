@@ -33,13 +33,16 @@ export const dijkstra = async (ui, grid, start, end, animate) => {
     node.setVisited();
     ui.setElementType(node.elem, 'visited');
 
+    // animation option
+    if(animate) {
+      await ui.sleep();
+      ui.setElementType(node.elem, 'visited-animate');
+    }
+
     // return true if destination node reached
     if(grid.areNodeEquals(node, end))
       return true;
 
-    // animation option
-    if(animate)
-      await ui.sleep();
 
     // get neighbours
     const neighbours = node.getNeighbours();

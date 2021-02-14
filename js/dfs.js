@@ -17,8 +17,10 @@ export const dfs = async (ui, grid, start, end, animate) => {
     return true;
 
   // animation option
-  if(animate)
+  if(animate) {
     await ui.sleep();
+      ui.setElementType(start.elem, 'visited-animate');
+  }
 
   // get neighbours
   const neighbours = start.getNeighbours();

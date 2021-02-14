@@ -20,10 +20,10 @@ export class PriorityQueue {
 
   enqueue(element, priority) {
     let newItem = new PQElement(element, priority);
-    let length = this.pQueue.length;
+    let length = this.pqueue.length;
     for(let i = 0; i < length; i++) {
-      if(this.pQueue[i].priority > newItem.priority) {
-        this.pQueue.splice(i, 0, newItem);
+      if(this.pqueue[i].priority > newItem.priority) {
+        this.pqueue.splice(i, 0, newItem);
         return;
       }
     }

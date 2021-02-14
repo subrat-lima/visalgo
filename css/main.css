@@ -96,12 +96,6 @@ body {
   color: var(--nav-hover);
 }
 
-/*
-.dropbtn:focus + .dropdown-content {
-  display: flex;
-}
-*/
-
 .dropdown-content {
   position: absolute;
   display: none;
@@ -128,6 +122,7 @@ body {
 
 .show {
   display: flex;
+  z-index: 1;
 }
 
 .container {
@@ -175,18 +170,37 @@ body {
 
 .node > i {
   color: var(--icons);
+  max-width: 25px;
+  max-height: 25px;
 }
 
-.visited {
+.visited,
+.visited-animate {
   background-color: var(--visited);
-  animation: visitedAnimation 1.5s ease-out 0 1 alternate;
+}
+
+.visited-animate {
+  animation-name: visitedAnimation;
+  animation-duration: 1.5s;
+  animation-timing-function: ease-out;
+  animation-iteration-count: 1 alternate;
   animation-fill-mode: forwards;
   animation-play-state: running;
 }
 
-.shortest {
+.shortest,
+.shortest-animate {
   border-color: var(--shortest-path);
   background-color: var(--shortest-path);
+}
+
+.shortest-animate {
+  animation-name: shortestAnimation;
+  animation-duration: 1.5s;
+  animation-timing-function: linear;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+  animation-play-state: running;
 }
 
 .wall {
@@ -222,5 +236,20 @@ body {
   100% {
     transform: scale(1);
     background: rgba(0, 190, 218, .75);
+  }
+}
+
+@keyframes shortestAnimation {
+  0% {
+    transform: scale(.6);
+    background-color: rgb(255, 254, 106);
+  }
+  50% {
+    transform: scale(1.2);
+    background-color: rgb(255, 254, 106);
+  }
+  100% {
+    transform: scale(1);
+    background-color: rgb(255, 254, 106);
   }
 }
