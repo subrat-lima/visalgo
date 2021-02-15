@@ -37,6 +37,7 @@ export class UI {
     this.clearWeight = document.getElementById('clear-weight');
     this.addWalls = document.getElementById('add-walls');
     this.addWeights = document.getElementById('add-weights');
+
   };
 
   clearWalls(grid) {
@@ -60,7 +61,6 @@ export class UI {
         grid.nodes[i][j].visited = false;
         this.removeElementType(grid.nodes[i][j].elem, 'visited');
         this.removeElementType(grid.nodes[i][j].elem, 'shortest');
-
       }
     }
   }
@@ -79,6 +79,13 @@ export class UI {
   }
 
   addGridModifierListeners(grid) {
+
+    this.startNode = document.getElementById('starticon');
+    this.endNode = document.getElementById('endicon');
+
+    this.startNode.ondragstart = this.drag;
+    this.endNode.ondragstart = this.drag;
+
     this.clearWall.onclick = (e) => {
       this.gridContent.classList.toggle('show');
       this.clearWalls(grid);
@@ -92,6 +99,8 @@ export class UI {
     for(let i = 0; i < this.rows; i++) {
       for(let j = 0; j < this.columns; j++) {
         let elem = grid.nodes[i][j].elem;
+        elem.ondrop = (e) => this.drop(e, grid);
+        elem.ondragover = this.allowDrop;
         elem.onclick = (e) => {
           if(this.addElem == 'Walls') {
             grid.nodes[i][j].wall = true;
@@ -155,25 +164,29 @@ export class UI {
     });
   }
 
+  allowDrop(e) {
+    e.preventDefault();
+  }
+
+  drag(e) {
+    e.dataTransfer.setData('text/html', e.target.id)
+  }
+
+  drop(e, grid) {
+    e.preventDefault();
+    let data = e.dataTransfer.getData('text/html');
+    e.target.appendChild(document.getElementById(data));
+    let id = e.target.getAttribute('data-id');
+    let loc = id.split('-');
+    if(data == 'starticon')
+      grid.startNode = grid.nodes[loc[0]][loc[1]];
+    else if(data == 'endicon')
+      grid.endNode = grid.nodes[loc[0]][loc[1]];
+  }
+
   addNodeListener(elem) {
-    elem.ondragover = (e) => {
-      e.preventDefault();
-      e.dataTransfer.dropEffect = 'move';
-    };
-
-    elem.ondrop = (e) => {
-      e.preventDefault();
-      const data = e.dataTransfer.getData('text/html');
-      e.target.appendChild(document.getElementById(data));
-    };
   }
 
-  addDragDropEvent(elem) {
-    elem.ondragstart = (e) => {
-      e.dataTransfer.setData('text/html', e.target.id);
-      e.dataTransfer.effectAllowed = 'move';
-    }
-  }
 
   setGridSize() {
     this.columns = this.getNodeSize(window.innerWidth * .7);
@@ -182,8 +195,6 @@ export class UI {
 
   drawGrid() {
     let nodes = [];
-    //const grid = document.createElement('tbody');
-    //tbody.classList.add('grid-body');
     for(let i = 0; i < this.rows; i++) {
       const nodeRow = [];
       const elemRow = document.createElement('div');
@@ -202,7 +213,6 @@ export class UI {
       this.grid.appendChild(elemRow);
       nodes.push(nodeRow);
     }
-    //this.grid.appendChild(tbody);
     return nodes;
   }
 
