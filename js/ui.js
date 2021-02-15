@@ -6,7 +6,7 @@ export class UI {
     this.algoValues = {'bfs': 'BFS', 'dfs': 'DFS', 'dijkstra': 'Dijkstra', 'astar': 'A Star'};
     this.animate = true;
     this.animationSpeed = 25;
-    this.algorithm = 'bfs';
+    this.algorithm = 'astar';
     this.addElem = 'Walls';
 
     this.domElements();

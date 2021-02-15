@@ -1,6 +1,7 @@
 import { bfs } from './bfs.js';
 import { dfs } from './dfs.js';
 import { dijkstra } from './dijkstra.js';
+import { astar } from './astar.js';
 
 /**
  * Purpose: Choose the selected algorithm, tracePath and visualize it
@@ -21,6 +22,10 @@ export class Algorithms {
       case 'dijkstra':
         found = await dijkstra(ui, grid, start, end, animate);
         break;
+      case 'astar':
+        found = await astar(ui, grid, start, end, animate);
+        break;
+
 
     }
 

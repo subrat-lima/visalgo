@@ -35,8 +35,8 @@ export const dijkstra = async (ui, grid, start, end, animate) => {
 
     // animation option
     if(animate) {
-      await ui.sleep();
       ui.setElementType(node.elem, 'visited-animate');
+      await ui.sleep();
     }
 
     // return true if destination node reached
