@@ -215,7 +215,7 @@ body {
 }
 
 .wall {
-  background-color: var(--wall);
+  background-color: var(--wall) !important;
 }
 
 .grid {
