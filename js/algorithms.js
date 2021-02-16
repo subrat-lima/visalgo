@@ -32,6 +32,8 @@ export class Algorithms {
       let path = this.tracePath(grid, start, end);
       await this.printPath(ui, path, animate);
     }
+    ui.visualize.disabled = false;
+    ui.visualize.classList.remove('wait');
   }
 
   // trace path

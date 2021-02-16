@@ -14,6 +14,7 @@
   --icons: #420863;
   --wall: #0c3547;
   --node-size: 25px;
+  --wait: orange;
 }
 
 * {
@@ -89,12 +90,17 @@ button {
 
 #visualize {
   background: var(--button);
+  transition: .75s;
 }
 
 #visualize:hover,
 #visualize:focus {
   color: var(--text);
   background: var(--button-hover);
+}
+
+.wait {
+  background: var(--wait) !important;
 }
 
 .nav__item-value {

@@ -22,6 +22,9 @@ ui.addGridModifierListeners(grid);
 const visualize = ui.visualize;
 
 visualize.onclick = async () => {
+  console.log('hellow');
+  visualize.disabled = true;
+  visualize.classList.add('wait');
   ui.clearPaths(grid);
   await algo.runAlgorithm(ui, grid, grid.getStartNode(), grid.getEndNode(), ui.animate);
 };
