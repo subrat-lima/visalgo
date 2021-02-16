@@ -1,4 +1,5 @@
 import { Node } from './node.js';
+import { Algorithms } from './algorithms.js';
 
 export class UI {
   constructor() {
@@ -78,7 +79,7 @@ export class UI {
     }
   }
 
-  addGridModifierListeners(grid) {
+  async addGridModifierListeners(grid) {
 
     this.startNode = document.getElementById('starticon');
     this.endNode = document.getElementById('endicon');
@@ -99,7 +100,7 @@ export class UI {
     for(let i = 0; i < this.rows; i++) {
       for(let j = 0; j < this.columns; j++) {
         let elem = grid.nodes[i][j].elem;
-        elem.ondrop = (e) => this.drop(e, grid);
+        elem.ondrop = async (e) => await this.drop(e, grid);
         elem.ondragover = this.allowDrop;
         elem.onclick = (e) => {
           if(this.addElem == 'Walls') {
@@ -172,16 +173,22 @@ export class UI {
     e.dataTransfer.setData('text/html', e.target.id)
   }
 
-  drop(e, grid) {
+  async drop(e, grid) {
     e.preventDefault();
     let data = e.dataTransfer.getData('text/html');
     e.target.appendChild(document.getElementById(data));
     let id = e.target.getAttribute('data-id');
     let loc = id.split('-');
+    let enode = grid.endNode;
     if(data == 'starticon')
       grid.startNode = grid.nodes[loc[0]][loc[1]];
     else if(data == 'endicon')
       grid.endNode = grid.nodes[loc[0]][loc[1]];
+    if(enode.isVisited) {
+      this.clearPaths(grid);
+      const algo = new Algorithms();
+      await algo.runAlgorithm(this, grid, grid.getStartNode(), grid.getEndNode(), false);
+    }
   }
 
   addNodeListener(elem) {
