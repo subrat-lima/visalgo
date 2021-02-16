@@ -7,6 +7,9 @@
   --button-hover: #48c9b0;
   --grid-outline: #afd8f8;
   --shortest-path: #fffe6a;
+  --transition-1: rgba(0, 0, 66, .75);
+  --transition-2: rgba(17, 104, 217, .75);
+  --transition-3: rgba(0, 217, 159, .75);
   --visited: #40cee3;
   --icons: #420863;
   --wall: #0c3547;
@@ -22,6 +25,7 @@
 body {
   width: 100%;
   height: 100%;
+  font-weight: 600;
   font-family: Lato, Helvetica, sans-serif;
 }
 
@@ -114,60 +118,17 @@ button {
   display: block;
 }
 
-/*
-.nav__item {
-  margin: 0 1rem;
-}
-*/
-
-.nav__item-highlight {
-  background: var(--button);
-  padding: .5rem 1.5rem;
-  color: var(--text);
-  font-weight: 600;
-  border: 0;
-  border-radius: 4px;
-  margin: 0 1.5rem;
-}
-
-.nav__item-highlight:focus,
-.nav__item-highlight:hover {
-  background: var(--button-hover);
-}
-.show {
-  display: flex;
-}
-
-.container {
-  width: 95%;
-  margin: 0 auto;
-  max-width: 1200px;
-}
-
-.info {
-  margin: 1rem auto;
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  justify-content: space-around;
-}
-
-.algo-data {
-  margin-top: 0;
-}
-
+.info,
 .info__item {
-  margin: 0 .5rem;
   display: flex;
+  margin: 0 1rem;
   align-items: center;
   justify-content: center;
 }
 
-.info__item > i,
-.info__item > span {
-  margin: .5rem;
-  color: var(--nav);
-  font-weight: 600;
+.info {
+  margin: 1rem auto;
+  flex-wrap: wrap;
 }
 
 .item__item > i {
@@ -178,16 +139,38 @@ button {
   border: 1px solid var(--grid-outline);
 }
 
+.info__item-text {
+  margin-left: .5rem;
+  color: var(--nav);
+}
+
+.grid {
+  text-align: center;
+}
+
+.grid__row,
+.node {
+  height: var(--node-size);
+  border: 1px solid var(--grid-outline);
+  border-width: 0;
+}
+
+.grid__row > .node:first-child {
+  border-left-width: 1px;
+}
+
+.grid__row:first-child > .node {
+  border-top-width: 1px;
+}
+
 .node {
   display: inline-block;
   width: var(--node-size);
-  height: var(--node-size);
-  border-right: 1px solid var(--grid-outline);
-  border-bottom: 1px solid var(--grid-outline);
+  border-right-width: 1px;
+  border-bottom-width: 1px;
   position: relative;
   overflow: hidden;
 }
-
 
 .node > i {
   display: inline-block;
@@ -199,84 +182,49 @@ button {
 
 .visited,
 .visited-animate {
-  background-color: var(--visited);
+  background: var(--visited);
 }
 
+
 .visited-animate {
-  animation-name: visitedAnimation;
-  animation-duration: 1.5s;
-  animation-timing-function: ease-out;
-  animation-iteration-count: 1;
-  animation-fill-mode: forwards;
-  animation-play-state: running;
+  animation: visitedAnimation 1.5s;
 }
 
 .shortest,
 .shortest-animate {
-  border-color: var(--shortest-path);
+  border: 1px solid var(--shortest-path);
   background-color: var(--shortest-path);
 }
 
 .shortest-animate {
-  animation-name: shortestAnimation;
-  animation-duration: 1.5s;
-  animation-timing-function: linear;
-  animation-iteration-count: 1;
-  animation-fill-mode: forwards;
-  animation-play-state: running;
+  animation: shortestAnimation 1.5s;
 }
 
 .wall {
-  background-color: var(--wall) !important;
-}
-
-.grid {
-  text-align: center;
-}
-
-.grid__row {
-  height: var(--node-size);
-}
-
-.grid__row > .node:first-child {
-  border-left: 1px solid var(--grid-outline);
-}
-
-.grid__row:first-child > .node {
-  border-top: 1px solid var(--grid-outline);
+  background: var(--wall);
 }
 
 @keyframes visitedAnimation {
   0% {
     transform: scale(.3);
-    background-color: rgba(0, 0, 66, .75);
+    background-color: var(--transition-1);
     border-radius: 100%;
   }
   50% {
-    background: rgba(17, 104, 217, .75);
+    background: var(--transition-2);
   }
   75% {
     transform: scale(1.2);
-    background-color: rgba(0, 217, 159, .75);
+    background-color: var(--transition-3);
   }
 
   100% {
-     transform: scale(1);
-    background: rgba(0, 190, 218, .75);
+    transform: scale(1);
   }
 }
 
 @keyframes shortestAnimation {
-  0% {
-    transform: scale(.6);
-    background-color: rgb(255, 254, 106);
-  }
-  50% {
-    transform: scale(1.2);
-    background-color: rgb(255, 254, 106);
-  }
-  100% {
-    transform: scale(1);
-    background-color: rgb(255, 254, 106);
-  }
+  0% { transform: scale(.6); }
+  50% { transform: scale(1.2); }
+  100% { transform: scale(1); }
 }
