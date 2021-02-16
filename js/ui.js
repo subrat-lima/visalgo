@@ -3,43 +3,31 @@ import { Algorithms } from './algorithms.js';
 
 export class UI {
   constructor() {
-    this.speed = {'0': 'Instant', '25': 'Fast', '50': 'Average', '100': 'Slow'};
-    this.algoValues = {'bfs': 'BFS', 'dfs': 'DFS', 'dijkstra': 'Dijkstra', 'astar': 'A Star'};
-    this.animate = true;
-    this.animationSpeed = 25;
-    this.algorithm = 'astar';
-    this.addElem = 'Walls';
-
+    //this.addElem = 'Walls';
+    this.initVariables();
     this.domElements();
     this.setGridSize();
     this.addEventListeners();
   }
 
+  initVariables() {
+    this.SPEED_LIST = {'instant': 0, 'fast': 25, 'average': 50, 'slow': 100};
+
+    this.animate = true;
+    this.algorithm = 'bfs';
+    this.obstacle = 'wall';
+    this.speed = 'fast';
+  }
+
   domElements() {
     this.grid = document.getElementById('grid');
     this.visualize = document.getElementById('visualize');
-    this.algoOptions = document.querySelectorAll('.algo-option');
-    this.algoBtn = document.getElementById('algo-btn');
-    this.algoContent = document.getElementById('dropdown-algo');
-    this.gridContent = document.getElementById('dropdown-grid');
-    this.speedBtn = document.getElementById('speed-btn');
-    this.gridBtn = document.getElementById('grid-btn');
-    this.speedContent = document.getElementById('dropdown-speed');
-    this.speedOptions = document.querySelectorAll('.speed-option');
 
-    this.algoValue = document.getElementById('algo-value');
-    this.gridValue = document.getElementById('grid-value');
-    this.speedValue = document.getElementById('speed-value');
-    this.speedValue.innerHTML = this.speed[`${this.animationSpeed}`];
-    this.algoValue.innerHTML = this.algoValues[this.algorithm];
-    this.gridValue.innerHTML = this.addElem;
+    this.dropDownItems = Array.from(document.getElementsByClassName('dropdown__item'));
 
-    this.clearWall = document.getElementById('clear-wall');
-    this.clearWeight = document.getElementById('clear-weight');
-    this.addWalls = document.getElementById('add-walls');
-    this.addWeights = document.getElementById('add-weights');
 
   };
+
 
   clearWalls(grid) {
     for(let i = 0; i < this.rows; i++) {
@@ -66,6 +54,30 @@ export class UI {
     }
   }
 
+  clearObstacle(grid) {
+    for(let i = 0; i < this.rows; i++) {
+      for(let j = 0; j < this.columns; j++) {
+        let node = grid.nodes[i][j];
+        if(this.obstacle == 'wall') {
+          if(node.wall) {
+            grid.nodes[i][j].wall = false;
+            this.removeElementType(node.elem, 'wall');
+          }
+        } else {
+          if(node.weight > 1) {
+            grid.nodes[i][j].weight = 1;
+            node.elem.innerHTML = '';
+          }
+          if(node.visited) {
+            grid.nodes[i][j].visited = false;
+            this.removeElementType(node.elem, 'visited');
+            this.removeElementType(node.elem, 'shortest');
+          }
+        }
+      }
+    }
+  }
+
   clearPaths(grid) {
     for(let i = 0; i < this.rows; i++) {
       for(let j = 0; j < this.columns; j++) {
@@ -87,6 +99,7 @@ export class UI {
     this.startNode.ondragstart = this.drag;
     this.endNode.ondragstart = this.drag;
 
+    /*
     this.clearWall.onclick = (e) => {
       this.gridContent.classList.toggle('show');
       this.clearWalls(grid);
@@ -97,13 +110,14 @@ export class UI {
       this.clearWeights(grid);
     };
 
+*/
     for(let i = 0; i < this.rows; i++) {
       for(let j = 0; j < this.columns; j++) {
         let elem = grid.nodes[i][j].elem;
         elem.ondrop = async (e) => await this.drop(e, grid);
         elem.ondragover = this.allowDrop;
         elem.onclick = (e) => {
-          if(this.addElem == 'Walls') {
+          if(this.obstacle == 'wall') {
             grid.nodes[i][j].wall = true;
             this.setElementType(elem, 'wall');
           } else {
@@ -115,54 +129,30 @@ export class UI {
       }
     }
 
+    this.dropDownItems.forEach(item => {
+      item.onclick = (e) => {
+        let span = e.target.parentElement.previousElementSibling.querySelector('span');
+        let value = e.target.value;
+        span.textContent = value;
+
+        if(span.id == 'algo-value')
+          this.algorithm = value.toLowerCase();
+        else if(span.id == 'speed-value')
+          this.speed = this.SPEED_LIST[value.toLowerCase()];
+        else {
+          this.obstacle = value.toLowerCase();
+          if(e.target.dataset.type == 'clear') {
+            this.clearObstacle(grid);
+          }
+        }
+      };
+    });
   }
 
+
   addEventListeners() {
-    this.algoBtn.onclick = (e) => {
-      this.algoContent.classList.toggle('show');
-    };
 
-    for(let option of this.algoOptions) {
-      option.onclick = (e) => {
-        this.algorithm = e.target.getAttribute('data-value');
 
-        this.algoValue.innerHTML = this.algoValues[this.algorithm];
-        this.algoContent.classList.toggle('show');
-      }
-    }
-
-    this.gridBtn.onclick = (e) => {
-      this.gridContent.classList.toggle('show');
-    }
-
-    this.addWalls.onclick = (e) => {
-      this.gridContent.classList.toggle('show');
-      this.addElem = 'Walls';
-      this.gridValue.innerHTML = this.addElem;
-    };
-
-    this.addWeights.onclick = (e) => {
-      this.gridContent.classList.toggle('show');
-      this.addElem = 'Weights';
-      this.gridValue.innerHTML = this.addElem;
-    };
-
-    this.speedBtn.onclick = (e) => {
-      this.speedContent.classList.toggle('show');
-    }
-
-    this.speedOptions.forEach(speed => {
-      speed.onclick = (e) => {
-        let value = e.target.getAttribute('data-value');
-        if(value == 0)
-          this.animate = false;
-        else
-          this.animate = true;
-        this.animationSpeed = parseInt(value);
-        this.speedValue.innerHTML = this.speed[value];
-        this.speedContent.classList.toggle('show');
-      }
-    });
   }
 
   allowDrop(e) {
@@ -242,6 +232,6 @@ export class UI {
   }
 
   sleep() {
-    return new Promise(resolve => setTimeout(resolve, this.animationSpeed));
+    return new Promise(resolve => setTimeout(resolve, this.speed));
   }
 }

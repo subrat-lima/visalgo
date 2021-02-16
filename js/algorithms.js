@@ -22,11 +22,9 @@ export class Algorithms {
       case 'dijkstra':
         found = await dijkstra(ui, grid, start, end, animate);
         break;
-      case 'astar':
+      case 'a*':
         found = await astar(ui, grid, start, end, animate);
         break;
-
-
     }
 
     // if path found, trace path and visualize it

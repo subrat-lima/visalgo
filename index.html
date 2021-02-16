@@ -6,50 +6,50 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="preconnect" href="https://fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@200;600&display=swap" rel="stylesheet">
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
   <link rel="stylesheet" href="css/main.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.1.7/css/fork-awesome.min.css" integrity="sha256-gsmEoJAws/Kd3CjuOQzLie5Q3yshhvmo7YNtBG7aaEY=" crossorigin="anonymous">
 </head>
 <body>
-  <header class="nav">
-    <nav class="navbar">
+  <header>
+    <nav class="nav container">
       <a href="#" class="title">Pathfinding Visualizer</a>
-      <div class="navbar__items">
-        <div class="navbar__item dropdown">
-          <button class="dropbtn" id="algo-btn">Algorithms:
-            <span class="info__item-value" id="algo-value"></span>
+      <div class="nav__items">
+        <div class="nav__item dropdown">
+          <button class="dropdown__btn">
+            Algorithms: <span class="nav__item-value" id="algo-value">BFS</span>
             <i class="fa fa-angle-down" aria-hidden="true"></i>
           </button>
-          <div class="dropdown-content" id="dropdown-algo">
-            <button class="dropdown-item algo-option" data-value="bfs">Breadth
-              First Search</button>
-            <button class="dropdown-item algo-option" data-value="dfs">Depth
-              First Search</button>
-            <button class="dropdown-item algo-option" data-value="dijkstra">Dijkstra</button>
-            <button class="dropdown-item algo-option" data-value="astar">A Star</button>
+          <div class="dropdown__items" data-id="algo-value">
+            <button class="dropdown__item" value="BFS">Breadth First Search</button>
+            <button class="dropdown__item" value="DFS">Depth First Search</button>
+            <button class="dropdown__item" value="Dijkstra">Dijkstra Algorithm</button>
+            <button class="dropdown__item" value="A*">A* Algorithm</button>
           </div>
         </div>
-        <div class="navbar__item dropdown">
-          <button class="dropbtn" id="grid-btn">Grid:
-            <span class="info__item-value" id="grid-value"></span>
-            <i class="fa fa-angle-down" aria-hidden="true"></i></button>
-          <div class="dropdown-content" id="dropdown-grid">
-            <button class="dropdown-item grid-option" id="clear-wall">Clear Walls</button>
-            <button class="dropdown-item grid-option" id="clear-weight">Clear Weights</button>
-            <button class="dropdown-item grid-option" id="add-walls">Add Walls</button>
-            <button class="dropdown-item grid-option" id="add-weights">Add Weights</button>
+        <div class="nav__item dropdown">
+          <button class="dropdown__btn">
+            Grid: <span class="nav__item-value" id="grid-value">Wall</span>
+            <i class="fa fa-angle-down" aria-hidden="true"></i>
+          </button>
+          <div class="dropdown__items" data-id="grid-value">
+            <button class="dropdown__item" value="Wall" data-type="add">Add Walls</button>
+            <button class="dropdown__item" value="Wall" data-type="clear">Clear Walls</button>
+            <button class="dropdown__item" value="Weight" data-type="add">Add Weights</button>
+            <button class="dropdown__item" value="Weight" data-type="clear">Clear Weights</button>
           </div>
         </div>
-        <button id="visualize" class="navbar__item nav__item-highlight">Visualize</button>
-        <div class="navbar__item dropdown">
-          <button class="dropbtn" id="speed-btn">Speed :
-            <span class="info__item-value" id="speed-value"></span>
-            <i class="fa fa-angle-down" aria-hidden="true"></i></button>
-          <div class="dropdown-content" id="dropdown-speed">
-            <button class="dropdown-item speed-option"
-                    data-value="0">Instant</button>
-            <button class="dropdown-item speed-option" data-value="25">Fast</button>
-            <button class="dropdown-item speed-option" data-value="50">Average</button>
-            <button class="dropdown-item speed-option" data-value="100">Slow</button>
+        <button id="visualize" class="nav__item">Visualize</button>
+        <div class="nav__item dropdown">
+          <button class="dropdown__btn">
+            Speed: <span class="nav__item-value" id="speed-value">Fast</span>
+            <i class="fa fa-angle-down" aria-hidden="true"></i>
+          </button>
+          <div class="dropdown__items" data-id="speed-value">
+            <button class="dropdown__item" value="Instant">Instant</button>
+            <button class="dropdown__item" value="Fast">Fast</button>
+            <button class="dropdown__item" value="Average">Average</button>
+            <button class="dropdown__item" value="Slow">Slow</button>
           </div>
         </div>
       </div>
