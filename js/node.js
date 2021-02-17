@@ -4,7 +4,7 @@
 export class Node {
   constructor(elem, id) {
     // make a node wall or path
-    this.wall = false;
+    this.isWall = false;
 
     // to keep track of visited nodes
     this.visited = false;
@@ -22,43 +22,7 @@ export class Node {
     this.neighbours = [];
   }
 
-  getId() {
-    return this.id;
-  }
-
-  isVisited() {
-    return this.visited;
-  }
-
-  setVisited() {
-    this.visited = true;
-  }
-
-  isWall() {
-    return this.wall;
-  }
-
-  addWall() {
-    this.wall = true;
-  }
-
-  removeWall() {
-    this.wall = false;
-  }
-
-  setWeight(weight) {
-    this.weight = Integer(weight);
-  }
-
-  getWeight() {
-    return this.weight;
-  }
-
-  addNeighbours(neighbours) {
+ addNeighbours(neighbours) {
     this.neighbours = [...neighbours];
-  }
-
-  getNeighbours() {
-    return this.neighbours;
   }
 }

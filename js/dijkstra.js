@@ -16,10 +16,10 @@ export const dijkstra = async (ui, grid, start, end, animate) => {
   // declare and initialize minDistances
   const minDistances = [];
   initializeMinDistances(grid, minDistances);
-  minDistances[start.getId()] = 0;
+  minDistances[start.id] = 0;
 
   // add start node to pqueue
-  pqueue.enqueue(start, minDistances[start.getId()]);
+  pqueue.enqueue(start, minDistances[start.id]);
 
   // loop until pqueue is empty
   while(!pqueue.isEmpty()) {
@@ -30,7 +30,7 @@ export const dijkstra = async (ui, grid, start, end, animate) => {
     let weight = current.priority;
 
     // set the node visited and visualize
-    node.setVisited();
+    node.visited = true;
     ui.setElementType(node.elem, 'visited');
 
     // animation option
@@ -45,11 +45,11 @@ export const dijkstra = async (ui, grid, start, end, animate) => {
 
 
     // get neighbours
-    const neighbours = node.getNeighbours();
+    const neighbours = node.neighbours;
 
     neighbours.forEach(neighbour => {
 
-      if(neighbour.isWall())
+      if(neighbour.isWall)
         return;
 
       // calculate distance to neighbour through current node
@@ -76,7 +76,7 @@ export const dijkstra = async (ui, grid, start, end, animate) => {
 const initializeMinDistances = (grid, minDistances) => {
   for(let i = 0; i < grid.rows; i++) {
     for(let j = 0; j < grid.columns; j++) {
-      let id = grid.nodes[i][j].getId();
+      let id = grid.nodes[i][j].id;
       minDistances[id] = Infinity;
     }
   }

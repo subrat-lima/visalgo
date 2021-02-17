@@ -23,11 +23,11 @@ export const bfs = async (ui, grid, start, end, animate) => {
     let current = queue.dequeue();
 
     // if node already visited, skip it
-    if(current.isVisited())
+    if(current.visited)
       continue;
 
     // set the node visited and visualize
-    current.setVisited();
+    current.visited = true;
     ui.setElementType(current.elem, 'visited');
 
     // animation option
@@ -40,13 +40,12 @@ export const bfs = async (ui, grid, start, end, animate) => {
     if(grid.areNodeEquals(current, end))
       return true;
 
-
     // get neighbours
-    const neighbours = current.getNeighbours();
+    const neighbours = current.neighbours;
 
     neighbours.forEach(neighbour => {
 
-      if(neighbour.isWall())
+      if(neighbour.isWall)
         return;
       // set parent node for neighbour to keep track of traversed path
       if(neighbour.elem.getAttribute('data-prev') == null)

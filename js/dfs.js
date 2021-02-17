@@ -9,7 +9,7 @@
  */
 export const dfs = async (ui, grid, start, end, animate) => {
   // set the node visited and visualize
-  start.setVisited();
+  start.visited = true;
   ui.setElementType(start.elem, 'visited');
 
   // return true if destination node reached
@@ -23,13 +23,13 @@ export const dfs = async (ui, grid, start, end, animate) => {
   }
 
   // get neighbours
-  const neighbours = start.getNeighbours();
+  const neighbours = start.neighbours;
   for(let i = 0; i < neighbours.length; i++) {
 
-    if(neighbours[i].isWall())
+    if(neighbours[i].isWall)
       continue;
     // skip if neighbour has been visited
-    if(neighbours[i].isVisited())
+    if(neighbours[i].visited)
       continue;
 
     // set parent node for neighbour to keep track of traversed path
