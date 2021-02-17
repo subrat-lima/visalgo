@@ -237,10 +237,12 @@ export class PathFinder {
         }
         this.removeStartNode();
         this.setStartNode(x, y);
+        /*
         if(this.visualized) {
           this.ui.animate = false;
           this.showAlgoPath(this);
         }
+        */
       }
       else if(this.moveEndNode) {
         if(this.isStartNode(this.nodes[x][y])) {
@@ -248,13 +250,13 @@ export class PathFinder {
         }
         this.removeEndNode();
         this.setEndNode(x, y);
+        /*
         if(this.visualized) {
           this.ui.animate = false;
           this.showAlgoPath(this);
         }
+        */
       } else if(this.handleObstacle) {
-        e.preventDefault();
-        this.clearObstacle(x, y, this.ui.obstacle);
         this.addObstacle(x, y);
       }
     };
@@ -301,9 +303,9 @@ export class PathFinder {
       this.clearPath(x, y);
     this.nodes[x][y].weight = this.grid.NODE_WEIGHT;
     //console.log(this.grid.NODE_WEIGHT);
-    console.log(this.nodes[x][y].elem);
+    //console.log(this.nodes[x][y].elem);
     this.nodes[x][y].elem.innerHTML = '<i class="fa fa-lg fa-lock" aria-hidden="true"></i>';
-    console.log(this.nodes[x][y].elem.innerHTML);
+    //console.log(this.nodes[x][y].elem.innerHTML);
   }
 
   isStartNode(node) {
