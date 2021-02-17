@@ -27,6 +27,7 @@ export class Algorithms {
         break;
     }
 
+    console.log(found);
     // if path found, trace path and visualize it
     if(found) {
       let path = this.tracePath(grid, start, end);

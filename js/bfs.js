@@ -28,11 +28,11 @@ export const bfs = async (ui, grid, start, end, animate) => {
 
     // set the node visited and visualize
     current.visited = true;
-    ui.setElementType(current.elem, 'visited');
+    current.elem.classList.add('visited');
 
     // animation option
     if(animate) {
-      ui.setElementType(current.elem, 'visited-animate');
+      current.elem.classList.add('visited-animate');
       await ui.sleep();
     }
 
@@ -48,8 +48,8 @@ export const bfs = async (ui, grid, start, end, animate) => {
       if(neighbour.isWall)
         return;
       // set parent node for neighbour to keep track of traversed path
-      if(neighbour.elem.getAttribute('data-prev') == null)
-        neighbour.elem.setAttribute('data-prev', current.id);
+      if(neighbour.elem.dataset.prev == null)
+        neighbour.elem.dataset.prev = current.id;
 
       // add neighbour to the queue
       queue.enqueue(neighbour);

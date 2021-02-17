@@ -1,33 +1,18 @@
 import { Node } from './node.js';
 
 export class Grid {
-  constructor(rows, columns, nodes) {
+  constructor(rows, columns) {
     this.rows = rows;
     this.columns = columns;
-    this.nodes = nodes;
-
-    this.setNeighbours();
+    this.nodes = [];
+    this.startNode = null;
+    this.endNode = null;
+    this.NODE_WEIGHT = 5;
   }
 
-  setStartNode(ui, node) {
-    this.startNode = node;
-    node.elem.innerHTML = `<i id="starticon" class="fa fa-chevron-right fa-lg" aria-hidden="true" draggable="true"></i>`;
-    ui.setElementType(node.elem, 'start');
-  }
-
-  getStartNode() {
-    return this.startNode;
-  }
-
-  setEndNode(ui, node) {
-    this.endNode = node;
-    node.elem.innerHTML = `<i id="endicon" class="fa fa-dot-circle-o fa-lg" aria-hidden="true" draggable="true"></i>`;
-    ui.setElementType(node.elem, 'end');
-  }
-
-  getEndNode() {
-    return this.endNode;
-  }
+  /*
+   * Clean Code
+   */
 
   areNodeEquals(a, b) {
     return a.id == b.id;

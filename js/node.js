@@ -18,6 +18,9 @@ export class Node {
     // id refering to the x and y coordinate of grid
     this.id = id;
 
+    // reference to the previous traversed node
+    this.parent = null;
+
     // list of neighbours
     this.neighbours = [];
   }

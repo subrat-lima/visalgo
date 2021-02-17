@@ -31,11 +31,11 @@ export const dijkstra = async (ui, grid, start, end, animate) => {
 
     // set the node visited and visualize
     node.visited = true;
-    ui.setElementType(node.elem, 'visited');
+    node.elem.classList.add('visited');
 
     // animation option
     if(animate) {
-      ui.setElementType(node.elem, 'visited-animate');
+      node.elem.classList.add('visited-animate');
       await ui.sleep();
     }
 
@@ -63,7 +63,7 @@ export const dijkstra = async (ui, grid, start, end, animate) => {
         pqueue.enqueue(neighbour, distance);
 
         // set parent node for neighbour to keep track of traversed path
-        neighbour.elem.setAttribute('data-prev', node.id);
+        neighbour.elem.dataset.prev = node.id;
       }
     });
   }

@@ -10,7 +10,7 @@
 export const dfs = async (ui, grid, start, end, animate) => {
   // set the node visited and visualize
   start.visited = true;
-  ui.setElementType(start.elem, 'visited');
+  start.elem.classList.add('visited');
 
   // return true if destination node reached
   if(grid.areNodeEquals(start, end))
@@ -18,7 +18,7 @@ export const dfs = async (ui, grid, start, end, animate) => {
 
   // animation option
   if(animate) {
-    ui.setElementType(start.elem, 'visited-animate');
+    start.elem.classList.add('visited-animate');
     await ui.sleep();
   }
 
@@ -33,7 +33,7 @@ export const dfs = async (ui, grid, start, end, animate) => {
       continue;
 
     // set parent node for neighbour to keep track of traversed path
-    neighbours[i].elem.setAttribute('data-prev', start.id);
+    neighbours[i].elem.dataset.prev = start.id;
 
     // recursive call to find path from neighbour to destination
     // if path found, then return true

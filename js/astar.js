@@ -31,11 +31,11 @@ export const astar = async (ui, grid, start, end, animate) => {
 
     // set the node visited and visualize
     node.visited = true;
-    ui.setElementType(node.elem, 'visited');
+    node.elem.classList.add('visited');
 
     // animation option
     if(animate) {
-      ui.setElementType(node.elem, 'visited-animate');
+      node.elem.classList.add('visited-animate');
       await ui.sleep();
     }
 
@@ -66,7 +66,7 @@ export const astar = async (ui, grid, start, end, animate) => {
         pqueue.enqueue(neighbour, priority);
 
         // set parent node for neighbour to keep track of traversed path
-        neighbour.elem.setAttribute('data-prev', node.id);
+        neighbour.elem.dataset.prev = node.id;
       }
     });
   }
@@ -90,5 +90,4 @@ const calculateHeuristic = (current, end) => {
   let current_loc = current.elem.getAttribute('data-id').split('-');
   let end_loc = end.elem.getAttribute('data-id').split('-');
   return Math.abs(current_loc[0] - end_loc[0]) + Math.abs(current_loc[1] - end_loc[1]);
-  //return Math.floor(Math.sqrt(Math.pow(current_loc, 2) + Math.pow(end_loc, 2)));
 }
