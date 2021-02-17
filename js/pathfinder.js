@@ -8,6 +8,12 @@ export class PathFinder {
     this.initVariables();
     this.generateGrid();
     this.initNodes();
+
+    this.starticon = document.getElementById('starticon');
+    this.endicon = document.getElementById('endicon');
+    this.starticon.draggable = false;
+    this.endicon.draggable = false;
+
     this.addListeners();
     this.grid.setNeighbours();
   }
@@ -21,6 +27,10 @@ export class PathFinder {
     this.nodes = this.grid.nodes;
 
     this.algo = new Algorithms();
+    this.handleObstacle = false;
+    this.moveStartNode = false;
+    this.moveEndNode = false;
+    this.visualized = false;
   }
 
   generateGrid() {
@@ -44,6 +54,11 @@ export class PathFinder {
     }
   }
 
+  /*
+   * Helper Function
+   * returns location, id, node, elem
+   * from one another
+   */
   locationFromId(id) {
     let str = id.split('-');
     let location = {x: parseInt(str[0]), y: parseInt(str[1])};
@@ -81,6 +96,10 @@ export class PathFinder {
     return this.nodes[x][y].elem;
   }
 
+  /*
+   * Start and End Node
+   * Set and Unset
+   */
   initNodes() {
     let rowMiddle = parseInt(this.rows / 2 - 1);
     let columnStart = parseInt(this.columns / 4);
@@ -109,7 +128,10 @@ export class PathFinder {
     this.grid.endNode = null;
   }
 
-  async addListeners() {
+  /*
+   * Event Listeners
+   */
+  addListeners() {
     this.ui.dropDownItems.forEach(item => {
       this.addDropDownItemListener(item);
     });
@@ -123,6 +145,9 @@ export class PathFinder {
     this.ui.visualize.onclick = (e) => this.startVisualization(this);
   }
 
+  /*
+   * Dropdown Listener
+   */
   addDropDownItemListener(item) {
     item.onclick = (e) => {
       let span = e.target.parentElement.previousElementSibling.querySelector('span');
@@ -143,6 +168,9 @@ export class PathFinder {
     }
   }
 
+  /*
+   * Clear Obstacle - weights, walls, paths
+   */
   clearObstacles(obstacle) {
     for(let i = 0; i < this.rows; i++)
       for(let j = 0; j < this.columns; j++) {
@@ -183,14 +211,64 @@ export class PathFinder {
       return;
     this.nodes[x][y].visited = false;
     this.nodes[x][y].elem.className = 'node';
+    this.visualized = false;
   }
 
   addObstacleListener(x, y) {
     let elem = this.elemFromValues(x, y);
-    elem.onclick = (e) => {
-      this.addObstacle(x, y);
+
+    elem.onmousedown = (e) => {
+      if(this.isStartNode(this.nodes[x][y])) {
+        this.moveStartNode = true;
+      }
+      else if(this.isEndNode(this.nodes[x][y])) {
+        this.moveEndNode = true;
+      } else {
+        this.handleObstacle = true;
+        this.addObstacle(x, y);
+        e.preventDefault();
+      }
+    }
+
+    elem.onmouseover = (e) => {
+      if(this.moveStartNode) {
+        if(this.isEndNode(this.nodes[x][y])) {
+          return;
+        }
+        this.removeStartNode();
+        this.setStartNode(x, y);
+        if(this.visualized) {
+          this.ui.animate = false;
+          this.showAlgoPath(this);
+        }
+      }
+      else if(this.moveEndNode) {
+        if(this.isStartNode(this.nodes[x][y])) {
+          return;
+        }
+        this.removeEndNode();
+        this.setEndNode(x, y);
+        if(this.visualized) {
+          this.ui.animate = false;
+          this.showAlgoPath(this);
+        }
+      } else if(this.handleObstacle) {
+        e.preventDefault();
+        this.clearObstacle(x, y, this.ui.obstacle);
+        this.addObstacle(x, y);
+      }
+    };
+
+    elem.onmouseup = (e) => {
+      this.moveStartNode = false;
+      this.moveEndNode = false;
+      this.handleObstacle = false;
     };
   }
+
+  /*
+   * Add Obstacles - wall, weight
+   */
 
   addObstacle(x, y) {
     let node = this.nodeFromValues(x, y);
@@ -222,7 +300,10 @@ export class PathFinder {
     if(this.nodes[x][y].visited)
       this.clearPath(x, y);
     this.nodes[x][y].weight = this.grid.NODE_WEIGHT;
+    //console.log(this.grid.NODE_WEIGHT);
+    console.log(this.nodes[x][y].elem);
     this.nodes[x][y].elem.innerHTML = '<i class="fa fa-lg fa-lock" aria-hidden="true"></i>';
+    console.log(this.nodes[x][y].elem.innerHTML);
   }
 
   isStartNode(node) {
@@ -233,10 +314,21 @@ export class PathFinder {
     return this.grid.endNode.id === node.id;
   }
 
+  /*
+   * Run Algorithms
+   */
   async startVisualization() {
     this.ui.visualize.disabled = true;
     this.ui.visualize.classList.add('wait');
     this.clearObstacles('path');
+    this.visualized = true;
     await this.algo.runAlgorithm(this.ui, this.grid, this.grid.startNode, this.grid.endNode, true);
+  }
+
+  async showAlgoPath() {
+    this.clearObstacles('path');
+    this.visualized = true;
+    await this.algo.runAlgorithm(this.ui, this.grid, this.grid.startNode, this.grid.endNode, this.ui.animate);
+    this.ui.animate = true;
   }
 }

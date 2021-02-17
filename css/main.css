@@ -208,6 +208,7 @@ button {
 
 .wall {
   background: var(--wall);
+  transition: .5s;
 }
 
 @keyframes visitedAnimation {

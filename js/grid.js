@@ -10,9 +10,6 @@ export class Grid {
     this.NODE_WEIGHT = 5;
   }
 
-  /*
-   * Clean Code
-   */
 
   areNodeEquals(a, b) {
     return a.id == b.id;

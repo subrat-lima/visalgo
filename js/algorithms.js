@@ -27,14 +27,15 @@ export class Algorithms {
         break;
     }
 
-    console.log(found);
     // if path found, trace path and visualize it
     if(found) {
       let path = this.tracePath(grid, start, end);
       await this.printPath(ui, path, animate);
     }
-    ui.visualize.disabled = false;
-    ui.visualize.classList.remove('wait');
+    if(animate) {
+      ui.visualize.disabled = false;
+      ui.visualize.classList.remove('wait');
+    }
   }
 
   // trace path
@@ -63,11 +64,11 @@ export class Algorithms {
     for(let i = path.length - 1; i >= 0; i--) {
 
       // visualize
-      ui.setElementType(path[i].elem, 'shortest');
+      path[i].elem.classList.add('shortest');
 
       // animation
       if(animate) {
-        ui.setElementType(path[i].elem, 'shortest-animate');
+        path[i].elem.classList.add('shortest-animate');
         await ui.sleep();
       }
     }
